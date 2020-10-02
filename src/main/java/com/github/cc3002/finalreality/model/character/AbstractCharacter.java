@@ -20,8 +20,8 @@ public abstract class AbstractCharacter implements ICharacter {
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
   private final CharacterClass characterClass;
-  private Weapon equippedWeapon = null;
-  private ScheduledExecutorService scheduledExecutor;
+  /**private Weapon equippedWeapon = null;  */
+  protected ScheduledExecutorService scheduledExecutor;
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
       @NotNull String name, CharacterClass characterClass) {
@@ -31,8 +31,9 @@ public abstract class AbstractCharacter implements ICharacter {
   }
 
   @Override
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+  public void waitTurn() { }
+
+  /**scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     if (this instanceof PlayerCharacter) {
       scheduledExecutor
           .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
@@ -41,12 +42,12 @@ public abstract class AbstractCharacter implements ICharacter {
       scheduledExecutor
           .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
     }
-  }
+  }*/
 
   /**
    * Adds this character to the turns queue.
    */
-  private void addToQueue() {
+  protected void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
   }
@@ -56,7 +57,7 @@ public abstract class AbstractCharacter implements ICharacter {
     return name;
   }
 
-  @Override
+  /**@Override
   public void equip(Weapon weapon) {
     if (this instanceof PlayerCharacter) {
       this.equippedWeapon = weapon;
@@ -67,6 +68,7 @@ public abstract class AbstractCharacter implements ICharacter {
   public Weapon getEquippedWeapon() {
     return equippedWeapon;
   }
+*/
 
   @Override
   public CharacterClass getCharacterClass() {

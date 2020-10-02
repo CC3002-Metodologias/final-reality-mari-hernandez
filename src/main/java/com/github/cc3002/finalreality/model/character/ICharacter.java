@@ -26,12 +26,15 @@ public interface ICharacter {
   /**
    * Equips a weapon to the character.
    */
-  void equip(Weapon weapon);
 
-  /**
-   * Return this character's equipped weapon.
+  /** los enemigos no pueden equipar armas
+   * void equip(Weapon weapon);
    */
-  Weapon getEquippedWeapon();
+
+  /** los enemigos no pueden equipar armas
+   * Return this character's equipped weapon.
+   * Weapon getEquippedWeapon();
+   * */
 
   /**
    * Returns this character's class.
