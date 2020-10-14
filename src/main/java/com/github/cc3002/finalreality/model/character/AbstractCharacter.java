@@ -1,75 +1,75 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
-import com.github.cc3002.finalreality.model.character.player.PlayerCharacter;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * An abstract class that holds the common behaviour of all the characters in the game.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author María Antonia Hernández
  */
 public abstract class AbstractCharacter implements ICharacter {
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
-  private final CharacterClass characterClass;
-  private Weapon equippedWeapon = null;
-  private ScheduledExecutorService scheduledExecutor;
+  protected ScheduledExecutorService scheduledExecutor;
+  protected int puntosDeVida;
+  protected int defense;
+
+  /**
+   * Creates a Character with a turn, name, HP and defense points
+   *
+   * @param turnsQueue
+   *      Character´s turn in the queue
+   * @param name
+   *      Characters´s name
+   * @param puntosDeVida
+   *      Character´s health points
+   * @param defense
+   *      Character´s defense points
+   */
 
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-      @NotNull String name, CharacterClass characterClass) {
+                              @NotNull String name, int puntosDeVida, int defense) {
     this.turnsQueue = turnsQueue;
     this.name = name;
-    this.characterClass = characterClass;
+    this.puntosDeVida = puntosDeVida;
+    this.defense = defense;
   }
 
+
   @Override
-  public void waitTurn() {
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    if (this instanceof PlayerCharacter) {
-      scheduledExecutor
-          .schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
-    } else {
-      var enemy = (Enemy) this;
-      scheduledExecutor
-          .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
-    }
-  }
+  public void waitTurn() { }
+
 
   /**
    * Adds this character to the turns queue.
    */
-  private void addToQueue() {
+  protected void addToQueue() {
     turnsQueue.add(this);
     scheduledExecutor.shutdown();
   }
 
-  @Override
+  /**
+   * gets the name of the character
+   */
   public String getName() {
     return name;
   }
 
-  @Override
-  public void equip(Weapon weapon) {
-    if (this instanceof PlayerCharacter) {
-      this.equippedWeapon = weapon;
-    }
+  /**
+   * gets the character´s HP
+   */
+  public int getPuntosDeVida() {
+    return puntosDeVida;
   }
 
-  @Override
-  public Weapon getEquippedWeapon() {
-    return equippedWeapon;
-  }
-
-  @Override
-  public CharacterClass getCharacterClass() {
-    return characterClass;
+  /**
+   * gets the character´s defense points
+   */
+  public int getDefense() {
+    return defense;
   }
 }

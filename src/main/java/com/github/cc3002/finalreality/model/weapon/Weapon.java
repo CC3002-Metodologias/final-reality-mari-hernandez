@@ -3,45 +3,52 @@ package com.github.cc3002.finalreality.model.weapon;
 import java.util.Objects;
 
 /**
- * A class that holds all the information of a weapon.
+ *  An abstract class that holds all the information of a weapon.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author María Antonia Hernández
  */
-public class Weapon {
+public abstract class Weapon implements IWeapon{
 
   private final String name;
   private final int damage;
   private final int weight;
-  private final WeaponType type;
 
   /**
-   * Creates a weapon with a name, a base damage, speed and it's type.
-   *
-   * @see WeaponType
+   * Creates a weapon with a name, a base damage and wight.
+   * @param name
+   *      weapon´s name
+   * @param damage
+   *      weapon´s damage
+   * @param weight
+   *      weapon´s weight
    */
-  public Weapon(final String name, final int damage, final int weight,
-      final WeaponType type) {
+
+  public Weapon(final String name, final int damage, final int weight) {
     this.name = name;
     this.damage = damage;
     this.weight = weight;
-    this.type = type;
   }
 
-  private String getName() {
+  /**
+   * gets the name of the weapon
+   */
+  public String getName() {
     return name;
   }
 
-  private int getDamage() {
+  /**
+   * gets the damage of the weapon
+   */
+  public int getDamage() {
     return damage;
   }
 
+  /**
+   * gets the weight of the character
+   */
   public int getWeight() {
     return weight;
-  }
-
-  private WeaponType getType() {
-    return type;
   }
 
   @Override
@@ -52,15 +59,19 @@ public class Weapon {
     if (!(o instanceof Weapon)) {
       return false;
     }
-    final Weapon weapon = (Weapon) o;
-    return getDamage() == weapon.getDamage() &&
-        getWeight() == weapon.getWeight() &&
-        getName().equals(weapon.getName()) &&
-        getType() == weapon.getType();
+    final Weapon that = (Weapon) o;
+    return getName().equals(that.getName())
+            && getDamage() == that.getDamage()
+            && getWeight() == that.getWeight();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getName(), getDamage(), getWeight(), getType());
+    return Objects.hash(getName(), getDamage(), getWeight());
   }
+
+
+
 }
+
+
