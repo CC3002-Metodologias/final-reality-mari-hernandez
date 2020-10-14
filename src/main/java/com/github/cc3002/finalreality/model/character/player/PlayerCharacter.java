@@ -4,47 +4,60 @@ import com.github.cc3002.finalreality.model.character.AbstractCharacter;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
+import com.github.cc3002.finalreality.model.weapon.Weapon;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A class that holds all the information of a single character of the game.
+ * A class that holds all the information of a single player character of the game.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author María Antonia Hernández.
  */
-public class PlayerCharacter extends AbstractCharacter {
+public abstract  class PlayerCharacter extends AbstractCharacter {
+  protected IWeapon equippedWeapon;
 
   /**
-   * Creates a new character.
+   * Creates a new Player Character.
    *
    * @param name
-   *     the character's name
+   *     the Player´s name
    * @param turnsQueue
    *     the queue with the characters waiting for their turn
-   * @param characterClass
-   *     the class of this character
+   * @param puntosDeVida
+   *     Player´s health points
+   * @param defense
+   *     Player´s defense points
    */
-  public PlayerCharacter(@NotNull String name,
-      @NotNull BlockingQueue<ICharacter> turnsQueue,
-      final CharacterClass characterClass) {
-    super(turnsQueue, name, characterClass);
+  public PlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
+                         @NotNull String name, int puntosDeVida, int defense) {
+    super(turnsQueue, name, puntosDeVida, defense);
+    this.equippedWeapon= null ;
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hash(getCharacterClass());
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    scheduledExecutor.schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof PlayerCharacter)) {
-      return false;
-    }
-    final PlayerCharacter that = (PlayerCharacter) o;
-    return getCharacterClass() == that.getCharacterClass()
-        && getName().equals(that.getName());
+  /**
+   * gets the weapon equipped by this player
+   */
+  public IWeapon getEquippedWeapon() {
+    return equippedWeapon;
   }
+
+  /**
+   * equips a weapon for this player
+   */
+  public void equip(IWeapon weapon) {
+      this.equippedWeapon = weapon;
+  }
+
+
+
 }

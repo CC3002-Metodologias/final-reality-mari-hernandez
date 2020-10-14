@@ -1,28 +1,43 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.CharacterClass;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
  * A class that holds all the information of a single enemy of the game.
  *
  * @author Ignacio Slater Muñoz
- * @author <Your name>
+ * @author María Antonia Hernández
  */
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
+  private final int damage;
 
   /**
-   * Creates a new enemy with a name, a weight and the queue with the characters ready to
-   * play.
+   * Creates a new enemy with the characters ready to play.
+   * @param turnsQueue
+   *      Enemy´s turn in the queue
+   * @param name
+   *      Enemy´s name
+   * @param puntosDeVida
+   *      Enemy´s health points
+   * @param defense
+   *      Enemy´s defense points
+   * @param weight
+   *      Enemy´s weight
+   * @param damage
+   *      Enemy´s damage points
    */
-  public Enemy(@NotNull final String name, final int weight,
-      @NotNull final BlockingQueue<ICharacter> turnsQueue) {
-    super(turnsQueue, name, CharacterClass.ENEMY);
+  public Enemy(@NotNull BlockingQueue<ICharacter> turnsQueue,
+                                @NotNull String name, int puntosDeVida, int defense,int weight,int damage) {
+    super(turnsQueue, name, puntosDeVida, defense);
     this.weight = weight;
+    this.damage = damage;
   }
 
   /**
@@ -30,6 +45,21 @@ public class Enemy extends AbstractCharacter {
    */
   public int getWeight() {
     return weight;
+  }
+
+  /**
+   * Returns the damage of this enemy.
+   */
+  public int getDamage() {
+    return damage;
+  }
+
+  @Override
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    var enemy = (Enemy) this;
+    scheduledExecutor
+            .schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
   }
 
   @Override
@@ -41,11 +71,15 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     final Enemy enemy = (Enemy) o;
-    return getWeight() == enemy.getWeight();
+    return getName().equals( enemy.getName())
+            && getPuntosDeVida() == enemy.getPuntosDeVida()
+            && getDefense() == enemy.getDefense()
+            &&  getWeight() == enemy.getWeight()
+            &&  getDamage() == enemy.getDamage();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getWeight());
+    return Objects.hash(getName());
   }
 }
