@@ -1,13 +1,13 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class Thief extends PlayerCharacter{
+public class Thief extends AbstractPlayerCharacter {
 
     /**
      * Creates a new Knight.
@@ -26,6 +26,12 @@ public class Thief extends PlayerCharacter{
                  @NotNull String name, int puntosDeVida, int defense) {
         super(turnsQueue, name, puntosDeVida, defense);
     }
+
+    @Override
+    public void equip(IWeapon weapon){
+        weapon.equipByThief(this);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

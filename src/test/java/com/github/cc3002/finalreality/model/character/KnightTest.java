@@ -3,8 +3,10 @@ package com.github.cc3002.finalreality.model.character;
 import com.github.cc3002.finalreality.model.character.player.BlackMage;
 import com.github.cc3002.finalreality.model.character.player.Knight;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
+import com.github.cc3002.finalreality.model.weapon.Axe;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import com.github.cc3002.finalreality.model.weapon.Staff;
+import com.github.cc3002.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class KnightTest {
+public class KnightTest{
 
 
     protected BlockingQueue<ICharacter> turns=new LinkedBlockingQueue<>();
@@ -33,7 +35,7 @@ public class KnightTest {
 
     @BeforeEach
     void basicSetUpsetUp() {
-        testWeappon = new Staff("Test Staff", 10, 10);
+        testWeappon = new Sword("Test Sword", 10, 10);
         testKnight = new Knight(turns, KNIGHT_NAME, 50, 5);
     }
 
@@ -97,8 +99,9 @@ public class KnightTest {
 
     }
 
-    @Test
+   @Test
     void equipWeaponTest() {
+        testWeappon = new Sword("Test Sword",10,10);
         Knight knight = new Knight(turns, KNIGHT_NAME, 10, 15);
         assertNull(knight.getEquippedWeapon());
         knight.equip(testWeappon);

@@ -1,13 +1,13 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class WhiteMage extends PlayerCharacter{
+public class WhiteMage extends AbstractPlayerCharacter {
 
     private int mana;
 
@@ -30,6 +30,11 @@ public class WhiteMage extends PlayerCharacter{
                     @NotNull String name, int puntosDeVida, int defense, int mana) {
         super(turnsQueue, name, puntosDeVida, defense);
         this.mana=mana;
+    }
+
+    @Override
+    public void equip(IWeapon weapon){
+        weapon.equipByWhiteMage(this);
     }
 
 

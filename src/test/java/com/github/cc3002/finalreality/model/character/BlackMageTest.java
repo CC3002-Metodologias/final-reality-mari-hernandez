@@ -1,9 +1,12 @@
 package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.model.character.player.BlackMage;
+import com.github.cc3002.finalreality.model.character.player.Knight;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
+import com.github.cc3002.finalreality.model.weapon.Knife;
 import com.github.cc3002.finalreality.model.weapon.Staff;
+import com.github.cc3002.finalreality.model.weapon.Sword;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class BlackMageTest {
 
-    protected LinkedBlockingQueue turns=new LinkedBlockingQueue<>();
+    protected LinkedBlockingQueue turns = new LinkedBlockingQueue<>();
 
     private static final String BLACKMAGE_NAME = "Test Black Mage";
     private static final String BLACKMAGE_NAME2 = "Test Black Mage 2";
@@ -31,8 +34,8 @@ public class BlackMageTest {
 
     @BeforeEach
     void basicSetUpsetUp() {
-        testWeappon = new Staff("Test Staff",10,10);
-        testBlackMage = new BlackMage(turns,BLACKMAGE_NAME,50,5,20);
+        testWeappon = new Staff("Test Staff", 10, 10);
+        testBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 50, 5, 20);
     }
 
     @Test
@@ -56,15 +59,15 @@ public class BlackMageTest {
 
     @Test
     void constructorTest() {
-        var expectedBlackMage = new BlackMage(turns,BLACKMAGE_NAME,1,3,10);
-        var expectedBlackMage2 = new BlackMage(turns,BLACKMAGE_NAME2,1,3,10);
-        var expectedBlackMage3 = new BlackMage(turns,BLACKMAGE_NAME3,3,3,10);
-        var expectedBlackMage4 = new BlackMage(turns,BLACKMAGE_NAME4,1,5,10);
-        var expectedBlackMage5 = new BlackMage(turns,BLACKMAGE_NAME5,1,3,11);
-        var expectedBlackMage6 = new BlackMage(turns,BLACKMAGE_NAME,1,3,11);
-        var expectedBlackMage7 = new BlackMage(turns,BLACKMAGE_NAME,2,3,10);
-        var expectedBlackMage8 = new BlackMage(turns,BLACKMAGE_NAME,1,4,10);
-        var expectedWhiteMage= new WhiteMage(turns,"White Mage",1,3,10);
+        var expectedBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 1, 3, 10);
+        var expectedBlackMage2 = new BlackMage(turns, BLACKMAGE_NAME2, 1, 3, 10);
+        var expectedBlackMage3 = new BlackMage(turns, BLACKMAGE_NAME3, 3, 3, 10);
+        var expectedBlackMage4 = new BlackMage(turns, BLACKMAGE_NAME4, 1, 5, 10);
+        var expectedBlackMage5 = new BlackMage(turns, BLACKMAGE_NAME5, 1, 3, 11);
+        var expectedBlackMage6 = new BlackMage(turns, BLACKMAGE_NAME, 1, 3, 11);
+        var expectedBlackMage7 = new BlackMage(turns, BLACKMAGE_NAME, 2, 3, 10);
+        var expectedBlackMage8 = new BlackMage(turns, BLACKMAGE_NAME, 1, 4, 10);
+        var expectedWhiteMage = new WhiteMage(turns, "White Mage", 1, 3, 10);
 
         assertEquals(expectedWhiteMage, expectedWhiteMage);
         assertEquals(expectedWhiteMage.hashCode(), expectedWhiteMage.hashCode());
@@ -82,7 +85,7 @@ public class BlackMageTest {
         assertFalse(testBlackMage.equals(expectedWhiteMage));
         assertFalse(expectedBlackMage.hashCode() == expectedWhiteMage.hashCode());
 
-        assertTrue(expectedBlackMage.getMana()==expectedBlackMage2.getMana());
+        assertTrue(expectedBlackMage.getMana() == expectedBlackMage2.getMana());
 
         assertFalse(testBlackMage.equals(expectedBlackMage2));
         assertFalse(expectedBlackMage2.hashCode() == testBlackMage.hashCode());
@@ -103,11 +106,28 @@ public class BlackMageTest {
 
     @Test
     void equipWeaponTest() {
-        testWeappon = new Staff("Test Staff",10,10);
-        BlackMage blackMage1= new BlackMage(turns,BLACKMAGE_NAME,10,15,10);
+        testWeappon = new Knife("Test Knife", 10, 10);
+        Sword testWeappon2 = new Sword("Test Sword", 10, 10);
+        BlackMage blackMage1 = new BlackMage(turns, BLACKMAGE_NAME, 10, 15, 10);
         assertNull(blackMage1.getEquippedWeapon());
         blackMage1.equip(testWeappon);
-        assertEquals(testWeappon,blackMage1.getEquippedWeapon());
+        assertEquals(testWeappon, blackMage1.getEquippedWeapon());
+        blackMage1.equip(testWeappon2);
+        assertEquals(testWeappon, blackMage1.getEquippedWeapon());
     }
 
+    @Test
+    void attackTest() {
+        testBlackMage= new BlackMage(turns, BLACKMAGE_NAME, 50, 5, 20);
+        Knife testKnife= new Knife("Cuchillito", 10, 10);
+        testBlackMage.equip(testKnife);
+        Knight testKnight = new Knight(turns, "Knight test", 50, 5);
+        testBlackMage.attack(testKnight);
+        assertTrue(testKnight.getPuntosDeVida() == 45);
+        BlackMage testBlackMage2 = new BlackMage(turns, "malo", 0, 5, 10);
+        testBlackMage2.attack(testKnight);
+        assertTrue(testKnight.getPuntosDeVida() == 45);
+
+    }
 }
+

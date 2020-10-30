@@ -1,22 +1,19 @@
 package com.github.cc3002.finalreality.model.character;
-
 import com.github.cc3002.finalreality.model.character.player.BlackMage;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
-import com.github.cc3002.finalreality.model.weapon.*;
-import org.jetbrains.annotations.NotNull;
+import com.github.cc3002.finalreality.model.weapon.Axe;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
+import com.github.cc3002.finalreality.model.weapon.Staff;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class WhiteMageTest  {
+public class WhiteMageTest {
 
     protected BlockingQueue<ICharacter> turns=new LinkedBlockingQueue<>();
     protected List<ICharacter> testCharacters;
@@ -26,8 +23,6 @@ public class WhiteMageTest  {
     private static final String WHITEMAGE_NAME3 = "Test White Mage 3";
     private static final String WHITEMAGE_NAME4 = "Test White Mage 4";
     private static final String WHITEMAGE_NAME5 = "Test White Mage 5";
-
-
     private WhiteMage testWhiteMage;
     protected IWeapon testWeappon;
 
@@ -53,8 +48,10 @@ public class WhiteMageTest  {
             Assertions.assertEquals(testWhiteMage, turns.peek());
         } catch (InterruptedException e) {
             e.printStackTrace();
+
         }
     }
+
 
     @Test
     void constructorTest() {
@@ -103,6 +100,7 @@ public class WhiteMageTest  {
 
     @Test
     void equipWeaponTest() {
+        testWeappon = new Staff("Test Axe",10,10);
         WhiteMage whiteMage= new WhiteMage(turns,WHITEMAGE_NAME,10,15,10);
         assertNull(whiteMage.getEquippedWeapon());
         whiteMage.equip(testWeappon);

@@ -30,7 +30,8 @@ public interface ICharacter {
    */
   int getDefense();
 
-
-
-
+  /**
+   * gets attacks by another character
+   */
+  void attackedBy(int damage);
 }

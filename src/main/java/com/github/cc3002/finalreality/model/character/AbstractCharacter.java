@@ -66,10 +66,32 @@ public abstract class AbstractCharacter implements ICharacter {
     return puntosDeVida;
   }
 
+
+  /**
+   * modify the character´s HP
+   */
+  public void setPuntosDeVida(int puntosDeVida){
+    this.puntosDeVida= puntosDeVida;
+  }
+
   /**
    * gets the character´s defense points
    */
   public int getDefense() {
     return defense;
   }
+
+
+  /**
+   * gets attacks by another character
+   */
+  public void attackedBy(int damage){
+    if(this.getPuntosDeVida()>0 && damage>this.getDefense()){
+      this.setPuntosDeVida(this.getPuntosDeVida() - damage + this.getDefense());
+      if(this.getPuntosDeVida()<0){
+        this.setPuntosDeVida(0);
+    }
+
+  }}
+
 }

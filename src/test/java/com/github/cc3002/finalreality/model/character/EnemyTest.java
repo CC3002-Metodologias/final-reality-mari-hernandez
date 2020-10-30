@@ -1,5 +1,6 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.cc3002.finalreality.model.character.player.Knight;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EnemyTest  {
+class EnemyTest {
 
   protected BlockingQueue<ICharacter> turns = new LinkedBlockingQueue<>();
   private static final String ENEMY_NAME = "Test Enemy";
@@ -86,5 +87,14 @@ class EnemyTest  {
     assertFalse(expectedEnemy5.hashCode() == testEnemy.hashCode());
 
   }
+  @Test
+  void attackTest() {
+    Knight testKnight = new Knight(turns,"Knight test", 50, 5);
+    testEnemy.attack(testKnight);
+    assertTrue(testKnight.getPuntosDeVida() == 45);
+    Enemy testEnemy2 = new Enemy(turns,ENEMY_NAME,0,5,10,10);
+    testEnemy2.attack(testKnight);
+    assertTrue(testKnight.getPuntosDeVida() == 45);
 
+  }
 }

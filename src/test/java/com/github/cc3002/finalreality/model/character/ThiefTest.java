@@ -4,6 +4,7 @@ import com.github.cc3002.finalreality.model.character.player.BlackMage;
 import com.github.cc3002.finalreality.model.character.player.Knight;
 import com.github.cc3002.finalreality.model.character.player.Thief;
 import com.github.cc3002.finalreality.model.character.player.WhiteMage;
+import com.github.cc3002.finalreality.model.weapon.Axe;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import com.github.cc3002.finalreality.model.weapon.Staff;
 import com.github.cc3002.finalreality.model.weapon.Sword;
@@ -19,7 +20,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class ThiefTest {
+public class ThiefTest{
 
     protected BlockingQueue<ICharacter> turns =new LinkedBlockingQueue<>();
     protected List<ICharacter> testCharacters;
@@ -104,6 +105,7 @@ public class ThiefTest {
     }
     @Test
     void equipWeaponTest() {
+        testWeappon = new Sword("Test Sword",10,10);
         Thief thief= new Thief(turns,THIEF_NAME,10,15);
         assertNull(thief.getEquippedWeapon());
         thief.equip(testWeappon);

@@ -1,10 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
-import com.github.cc3002.finalreality.model.character.player.Engineer;
-import com.github.cc3002.finalreality.model.character.player.Thief;
-import com.github.cc3002.finalreality.model.character.player.WhiteMage;
-import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.Staff;
+import com.github.cc3002.finalreality.model.character.player.*;
+import com.github.cc3002.finalreality.model.weapon.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +31,7 @@ public class EngineerTest  {
 
     @BeforeEach
     void basicSetUpsetUp() {
-        testWeappon = new Staff("Test Staff",10,10);
+        testWeappon = new Axe("Test Axe",10,10);
         testEngineer = new Engineer(turns,ENGINEER_NAME,10,10);
     }
 
@@ -100,11 +97,27 @@ public class EngineerTest  {
 
     @Test
     void equipWeaponTest() {
+        testWeappon = new Axe("Test Axe",10,10);
         Engineer engineer= new Engineer(turns,ENGINEER_NAME,10,15);
         assertNull(engineer.getEquippedWeapon());
         engineer.equip(testWeappon);
         assertEquals(testWeappon,engineer.getEquippedWeapon());
     }
+
+    @Test
+    void attackTest() {
+        testEngineer= new Engineer(turns, ENGINEER_NAME, 50, 5);
+        Axe testAxe= new Axe("Arma", 10, 10);
+        testEngineer.equip(testAxe);
+        Knight testKnight = new Knight(turns, "Knight test", 50, 5);
+        testEngineer.attack(testKnight);
+        assertTrue(testKnight.getPuntosDeVida() == 45);
+        Engineer testEgineer2 = new Engineer(turns, "malo", 0, 5);
+        testEgineer2.attack(testKnight);
+        assertTrue(testKnight.getPuntosDeVida() == 45);
+
+    }
+
 
 
 }

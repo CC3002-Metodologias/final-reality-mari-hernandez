@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.weapon;
 
+import com.github.cc3002.finalreality.model.character.player.*;
+
 import java.util.Objects;
 
 /**
@@ -50,6 +52,14 @@ public abstract class Weapon implements IWeapon{
   public int getWeight() {
     return weight;
   }
+
+  public void equipByThief(Thief thief){}
+  public void equipByBlackMage(BlackMage blackMage){}
+  public void equipByEngineer(Engineer engineer){}
+  public void equipByKnight(Knight knight){}
+  public void equipByWhiteMage(WhiteMage whiteMage){}
+
+
 
   @Override
   public boolean equals(final Object o) {
