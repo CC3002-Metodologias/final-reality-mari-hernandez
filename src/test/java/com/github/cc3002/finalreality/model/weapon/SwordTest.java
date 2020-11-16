@@ -18,11 +18,7 @@ public class SwordTest{
     private static final String SWORD_NAME5 = "Test Sword 5";
     private static final int DAMAGE = 15;
     private static final int SPEED = 10;
-
     protected LinkedBlockingQueue turns=new LinkedBlockingQueue<>();
-    private BlackMage testBlackMage;
-
-
     private IWeapon testSword;
 
     @BeforeEach

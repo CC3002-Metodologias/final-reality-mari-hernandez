@@ -7,7 +7,7 @@ package com.github.cc3002.finalreality.model.character;
  */
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 
-public interface IPlayerCharacter extends  ICharacter{
+public interface IPlayerCharacter extends ICharacter{
 
     /**
      * equips a weapon for a player
