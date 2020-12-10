@@ -23,22 +23,12 @@ public class BlackMage extends AbstractPlayerCharacter {
      *     Black Mage´s health points
      * @param defense
      *     Black Mage´s defense points
-     * @param mana
-     *     Black Mage´s mana points
+
      */
 
     public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                     @NotNull String name, int puntosDeVida, int defense,int mana) {
+                     @NotNull String name, int puntosDeVida, int defense) {
         super(turnsQueue, name, puntosDeVida, defense);
-        this.mana = mana;
-    }
-
-
-    /**
-     * gets the character´s HP
-     */
-    public int getMana() {
-        return mana;
     }
 
     @Override
@@ -57,8 +47,7 @@ public class BlackMage extends AbstractPlayerCharacter {
         final BlackMage that = (BlackMage) o;
         return getName().equals( that.getName())
                 && getPuntosDeVida() == that.getPuntosDeVida()
-                && getDefense() == that.getDefense()
-                &&  getMana() == that.getMana();
+                && getDefense() == that.getDefense();
 
 
     }

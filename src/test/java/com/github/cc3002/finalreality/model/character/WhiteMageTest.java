@@ -24,7 +24,7 @@ public class WhiteMageTest {
     @BeforeEach
     void basicSetUpsetUp() {
         testWeappon = new Staff("Test Staff",10,10);
-        testWhiteMage = new WhiteMage(turns,WHITEMAGE_NAME,50,5,20);
+        testWhiteMage = new WhiteMage(turns,WHITEMAGE_NAME,50,5);
     }
 
     @Test
@@ -50,13 +50,11 @@ public class WhiteMageTest {
 
     @Test
     void constructorTest() {
-        var expectedWhiteMage = new WhiteMage(turns, WHITEMAGE_NAME, 1, 3, 10);
-        var expectedWhiteMage2 = new WhiteMage(turns, WHITEMAGE_NAME2, 1, 3, 10);
-        var expectedWhiteMage3 = new WhiteMage(turns, WHITEMAGE_NAME, 2, 3, 10);
-        var expectedWhiteMage4 = new WhiteMage(turns, WHITEMAGE_NAME, 1, 4, 10);
-        var expectedWhiteMage5 = new WhiteMage(turns, WHITEMAGE_NAME, 1, 3, 12);
-        var expectedWhiteMage6 = new WhiteMage(turns, WHITEMAGE_NAME, 1, 3, 10);
-        var expectedBlackMage = new BlackMage(turns, WHITEMAGE_NAME, 1, 3, 10);
+        var expectedWhiteMage = new WhiteMage(turns, WHITEMAGE_NAME, 1, 3);
+        var expectedWhiteMage2 = new WhiteMage(turns, WHITEMAGE_NAME2, 1, 3);
+        var expectedWhiteMage3 = new WhiteMage(turns, WHITEMAGE_NAME, 2, 3);
+        var expectedWhiteMage4 = new WhiteMage(turns, WHITEMAGE_NAME, 1, 4);
+        var expectedBlackMage = new BlackMage(turns, WHITEMAGE_NAME, 1, 3);
 
         assertEquals(expectedBlackMage, expectedBlackMage);
         assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());
@@ -67,15 +65,13 @@ public class WhiteMageTest {
         assertFalse(expectedWhiteMage.equals(expectedWhiteMage2));
         assertFalse(expectedWhiteMage.equals(expectedWhiteMage3));
         assertFalse(expectedWhiteMage.equals(expectedWhiteMage4));
-        assertFalse(expectedWhiteMage.equals(expectedWhiteMage5));
-        assertTrue(expectedWhiteMage.equals(expectedWhiteMage6));
         assertFalse(expectedWhiteMage.equals(expectedBlackMage));
     }
 
     @Test
     void equipWeaponTest() {
         testWeappon = new Staff("Test Staff",10,10);
-        WhiteMage whiteMage= new WhiteMage(turns,WHITEMAGE_NAME,10,15,10);
+        WhiteMage whiteMage= new WhiteMage(turns,WHITEMAGE_NAME,10,15);
         assertNull(whiteMage.getEquippedWeapon());
         whiteMage.equip(testWeappon);
         assertEquals(testWeappon,whiteMage.getEquippedWeapon());

@@ -54,7 +54,7 @@ public class ThiefTest{
         var expectedThief3 = new Thief(turns, THIEF_NAME, 2, 3);
         var expectedThief4 = new Thief(turns, THIEF_NAME, 1, 4);
         var expectedThief5 = new Thief(turns, THIEF_NAME, 1, 3);
-        var expectedBlackMage = new BlackMage(turns, THIEF_NAME, 1, 3, 10);
+        var expectedBlackMage = new BlackMage(turns, THIEF_NAME, 1, 3);
 
         assertEquals(expectedBlackMage, expectedBlackMage);
         assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());

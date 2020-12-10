@@ -34,7 +34,7 @@ public class SwordTest{
         var expectedSword3 = new Sword(SWORD_NAME3, DAMAGE, 14);
         var expectedSword4 = new Sword(SWORD_NAME4, DAMAGE, SPEED);
         var expectedSword5 = new Sword(SWORD_NAME5, DAMAGE, SPEED);
-        var expectedBlackMage = new BlackMage(turns,"Mago Negro",1,3,10);
+        var expectedBlackMage = new BlackMage(turns,"Mago Negro",1,3);
 
         assertEquals(expectedSword, testSword);
         assertEquals(expectedSword.hashCode(), testSword.hashCode());

@@ -1,8 +1,11 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.cc3002.finalreality.Controller.IDeadHandler;
 import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.beans.PropertyChangeSupport;
+import java.util.*;
 
 /**
  * An abstract class that holds the common behaviour of all the characters in the game.
@@ -17,6 +20,7 @@ public abstract class AbstractCharacter implements ICharacter {
   protected ScheduledExecutorService scheduledExecutor;
   protected int puntosDeVida;
   protected int defense;
+  private final PropertyChangeSupport deadPlayerEvent = new PropertyChangeSupport(this);
 
   /**
    * Creates a Character with a turn, name, HP and defense points
@@ -38,11 +42,6 @@ public abstract class AbstractCharacter implements ICharacter {
     this.puntosDeVida = puntosDeVida;
     this.defense = defense;
   }
-
-
-  @Override
-  public void waitTurn() { }
-
 
   /**
    * Adds this character to the turns queue.
@@ -90,8 +89,12 @@ public abstract class AbstractCharacter implements ICharacter {
       this.setPuntosDeVida(this.getPuntosDeVida() - damage + this.getDefense());
       if(this.getPuntosDeVida()<0){
         this.setPuntosDeVida(0);
+        deadPlayerEvent.firePropertyChange( name + "Died " , null, this);
     }
-
   }}
+
+  public void addListener(IDeadHandler handler) {
+    deadPlayerEvent.addPropertyChangeListener(handler);
+  }
 
 }

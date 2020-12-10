@@ -50,7 +50,7 @@ class EnemyTest {
     var expectedEnemy5 = new Enemy(turns, ENEMY_NAME, 1, 3, 11,10);
     var expectedEnemy6 = new Enemy(turns, ENEMY_NAME, 1, 3, 10,20);
     var expectedEnemy7 = new Enemy(turns, ENEMY_NAME, 1, 3, 10,10);
-    var expectedBlackMage = new BlackMage(turns, ENEMY_NAME, 1, 3, 10);
+    var expectedBlackMage = new BlackMage(turns, ENEMY_NAME, 1, 3);
 
     assertEquals(expectedBlackMage, expectedBlackMage);
     assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());

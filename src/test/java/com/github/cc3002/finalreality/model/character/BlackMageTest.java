@@ -26,7 +26,7 @@ public class BlackMageTest {
     @BeforeEach
     void basicSetUpsetUp() {
         testWeappon = new Staff("Test Staff", 10, 10);
-        testBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 50, 5, 20);
+        testBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 50, 5);
     }
 
     @Test
@@ -50,13 +50,11 @@ public class BlackMageTest {
 
     @Test
     void constructorTest() {
-        var expectedBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 1, 3, 10);
-        var expectedBlackMage2 = new BlackMage(turns, BLACKMAGE_NAME2, 1, 3, 10);
-        var expectedBlackMage3 = new BlackMage(turns, BLACKMAGE_NAME, 2, 3, 10);
-        var expectedBlackMage4 = new BlackMage(turns, BLACKMAGE_NAME, 1, 4, 10);
-        var expectedBlackMage5 = new BlackMage(turns, BLACKMAGE_NAME, 1, 3, 12);
-        var expectedBlackMage6 = new BlackMage(turns, BLACKMAGE_NAME, 1, 3, 10);
-        var expectedWhiteMage = new WhiteMage(turns, BLACKMAGE_NAME, 1, 3, 10);
+        var expectedBlackMage = new BlackMage(turns, BLACKMAGE_NAME, 1, 3);
+        var expectedBlackMage2 = new BlackMage(turns, BLACKMAGE_NAME2, 1, 3);
+        var expectedBlackMage3 = new BlackMage(turns, BLACKMAGE_NAME, 2, 3);
+        var expectedBlackMage4 = new BlackMage(turns, BLACKMAGE_NAME, 1, 4);
+        var expectedWhiteMage = new WhiteMage(turns, BLACKMAGE_NAME, 1, 3);
 
         assertEquals(expectedBlackMage, expectedBlackMage);
         assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());
@@ -67,8 +65,6 @@ public class BlackMageTest {
         assertFalse(expectedBlackMage.equals(expectedBlackMage2));
         assertFalse(expectedBlackMage.equals(expectedBlackMage3));
         assertFalse(expectedBlackMage.equals(expectedBlackMage4));
-        assertFalse(expectedBlackMage.equals(expectedBlackMage5));
-        assertTrue(expectedBlackMage.equals(expectedBlackMage6));
         assertFalse(expectedBlackMage.equals(expectedWhiteMage));
     }
 
@@ -76,7 +72,7 @@ public class BlackMageTest {
     void equipWeaponTest() {
         testWeappon = new Knife("Test Knife", 10, 10);
         Sword testWeappon2 = new Sword("Test Sword", 10, 10);
-        BlackMage blackMage1 = new BlackMage(turns, BLACKMAGE_NAME, 10, 15, 10);
+        BlackMage blackMage1 = new BlackMage(turns, BLACKMAGE_NAME, 10, 15);
         assertNull(blackMage1.getEquippedWeapon());
         blackMage1.equip(testWeappon);
         assertEquals(testWeappon, blackMage1.getEquippedWeapon());
@@ -86,7 +82,7 @@ public class BlackMageTest {
 
     @Test
     void attackTest() {
-        testBlackMage= new BlackMage(turns, BLACKMAGE_NAME, 10, 5, 20);
+        testBlackMage= new BlackMage(turns, BLACKMAGE_NAME, 10, 5);
         Knife testKnife= new Knife("Cuchillito", 12, 10);
         testBlackMage.equip(testKnife);
         Knight testKnight = new Knight(turns, "Knight test", 10, 5);
@@ -96,7 +92,7 @@ public class BlackMageTest {
         assertTrue(testKnight.getPuntosDeVida() == 0);
 
         Knight testKnight2 = new Knight(turns, "Knight test", 10, 5);
-        BlackMage testBlackMage2 = new BlackMage(turns, "malo", 0, 5, 10);
+        BlackMage testBlackMage2 = new BlackMage(turns, "malo", 0, 5);
         testBlackMage2.attack(testKnight);
         assertTrue(testKnight2.getPuntosDeVida() == 10);
 

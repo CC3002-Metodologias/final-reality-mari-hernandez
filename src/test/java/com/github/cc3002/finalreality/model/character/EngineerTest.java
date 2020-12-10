@@ -55,7 +55,7 @@ public class EngineerTest  {
         var expectedEngineer3 = new Engineer(turns, ENGINEER_NAME, 2, 3);
         var expectedEngineer4 = new Engineer(turns, ENGINEER_NAME, 1, 4);
         var expectedEngineer5 = new Engineer(turns, ENGINEER_NAME, 1, 3);
-        var expectedBlackMage = new BlackMage(turns, ENGINEER_NAME, 1, 4, 10);
+        var expectedBlackMage = new BlackMage(turns, ENGINEER_NAME, 1, 4);
 
         assertEquals(expectedBlackMage, expectedBlackMage);
         assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());

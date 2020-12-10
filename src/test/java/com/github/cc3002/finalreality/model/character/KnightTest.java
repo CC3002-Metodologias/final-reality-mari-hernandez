@@ -56,7 +56,7 @@ public class KnightTest{
         var expectedKnight3 = new Knight(turns, KNIGHT_NAME, 2, 3);
         var expectedKnight4 = new Knight(turns, KNIGHT_NAME, 1, 4);
         var expectedKnight5 = new Knight(turns, KNIGHT_NAME, 1, 3);
-        var expectedBlackMage = new BlackMage(turns, KNIGHT_NAME, 1, 3, 10);
+        var expectedBlackMage = new BlackMage(turns, KNIGHT_NAME, 1, 3);
 
         assertEquals(expectedBlackMage, expectedBlackMage);
         assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());

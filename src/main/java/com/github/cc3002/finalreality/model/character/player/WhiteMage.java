@@ -22,14 +22,12 @@ public class WhiteMage extends AbstractPlayerCharacter {
      *     White Mage´s health points
      * @param defense
      *     White Mage´s defense points
-     * @param mana
-     *     White Mage´s mana points
+
      */
 
     public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                    @NotNull String name, int puntosDeVida, int defense, int mana) {
+                    @NotNull String name, int puntosDeVida, int defense) {
         super(turnsQueue, name, puntosDeVida, defense);
-        this.mana=mana;
     }
 
     @Override
@@ -38,12 +36,6 @@ public class WhiteMage extends AbstractPlayerCharacter {
     }
 
 
-    /**
-     * gets the character´s Mana
-     */
-    public int getMana() {
-        return mana;
-    }
 
     @Override
     public boolean equals(final Object o) {
@@ -56,8 +48,7 @@ public class WhiteMage extends AbstractPlayerCharacter {
         final WhiteMage that = (WhiteMage) o;
         return getName().equals(that.getName())
                 && getPuntosDeVida() == that.getPuntosDeVida()
-                && getDefense() == that.getDefense()
-                && getMana() == that.getMana();
+                && getDefense() == that.getDefense();
 
     }
 

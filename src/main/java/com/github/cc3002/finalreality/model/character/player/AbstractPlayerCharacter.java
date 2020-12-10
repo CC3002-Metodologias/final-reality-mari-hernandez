@@ -5,7 +5,8 @@ import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.IPlayerCharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
-
+import java.beans.PropertyChangeSupport;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ public abstract  class AbstractPlayerCharacter extends AbstractCharacter impleme
   @Override
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor.schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
+    scheduledExecutor.schedule(this::addToQueue, this.equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
   /**
