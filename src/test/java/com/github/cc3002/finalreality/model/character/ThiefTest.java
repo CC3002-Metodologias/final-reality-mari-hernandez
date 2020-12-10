@@ -1,35 +1,24 @@
 package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.model.character.player.BlackMage;
+import com.github.cc3002.finalreality.model.character.player.Engineer;
 import com.github.cc3002.finalreality.model.character.player.Knight;
 import com.github.cc3002.finalreality.model.character.player.Thief;
-import com.github.cc3002.finalreality.model.character.player.WhiteMage;
-import com.github.cc3002.finalreality.model.weapon.IWeapon;
-import com.github.cc3002.finalreality.model.weapon.Staff;
-import com.github.cc3002.finalreality.model.weapon.Sword;
+import com.github.cc3002.finalreality.model.weapon.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class ThiefTest {
+public class ThiefTest{
 
     protected BlockingQueue<ICharacter> turns =new LinkedBlockingQueue<>();
-    protected List<ICharacter> testCharacters;
-
     private static final String THIEF_NAME = "Test Thief";
     private static final String THIEF_NAME2 = "Test Thief 2";
-    private static final String THIEF_NAME3 = "Test Thief 3";
-    private static final String THIEF_NAME4 = "Test Thief 4";
-    private static final String THIEF_NAME5 = "Test Thief 5";
-
     private Thief testThief;
     protected IWeapon testWeappon;
 
@@ -60,54 +49,48 @@ public class ThiefTest {
 
     @Test
     void constructorTest() {
-        var expectedThief = new Thief(turns, THIEF_NAME, 1, 5);
-        var expectedThief2 = new Thief(turns, THIEF_NAME2, 1, 5);
-        var expectedThief3 = new Thief(turns, THIEF_NAME3, 1, 10);
-        var expectedThief4 = new Thief(turns, THIEF_NAME4, 1, 5);
-        var expectedThief5 = new Thief(turns, THIEF_NAME5, 1, 5);
-        var expectedWhiteMage = new WhiteMage(turns, "White Mage", 1, 5,5);
-        var expectedThief6 = new Thief(turns, THIEF_NAME, 2, 5);
-        var expectedThief7 = new Thief(turns, THIEF_NAME, 1, 2);
+        var expectedThief = new Thief(turns, THIEF_NAME, 1, 3);
+        var expectedThief2 = new Thief(turns, THIEF_NAME2, 1, 3);
+        var expectedThief3 = new Thief(turns, THIEF_NAME, 2, 3);
+        var expectedThief4 = new Thief(turns, THIEF_NAME, 1, 4);
+        var expectedThief5 = new Thief(turns, THIEF_NAME, 1, 3);
+        var expectedBlackMage = new BlackMage(turns, THIEF_NAME, 1, 3);
 
-        assertEquals(expectedWhiteMage, expectedWhiteMage);
-        assertEquals(expectedWhiteMage.hashCode(), expectedWhiteMage.hashCode());
+        assertEquals(expectedBlackMage, expectedBlackMage);
+        assertEquals(expectedBlackMage.hashCode(), expectedBlackMage.hashCode());
 
         assertEquals(expectedThief, expectedThief);
         assertEquals(expectedThief.hashCode(), expectedThief.hashCode());
 
         assertFalse(expectedThief.equals(expectedThief2));
-        assertFalse(expectedThief.equals(expectedThief6));
-        assertFalse(expectedThief.equals(expectedThief7));
-
-
-
-        assertFalse(testThief.equals(expectedThief2));
-        assertFalse(expectedThief2.hashCode() == testThief.hashCode());
-
-        assertFalse(testThief.equals(expectedWhiteMage));
-        assertFalse(expectedThief.hashCode() == expectedWhiteMage.hashCode());
-
-        assertFalse(testThief.equals(expectedThief3));
-        assertFalse(expectedThief3.hashCode() == testThief.hashCode());
-
-        assertFalse(testThief.equals(expectedThief4));
-        assertFalse(expectedThief4.hashCode() == testThief.hashCode());
-
-        assertTrue(testThief.equals(testThief));
-        assertTrue(testThief.hashCode() == testThief.hashCode());
-
-        assertFalse(testThief.equals(expectedThief5));
-        assertFalse(expectedThief5.hashCode() == testThief.hashCode());
-
-
-
+        assertFalse(expectedThief.equals(expectedThief3));
+        assertFalse(expectedThief.equals(expectedThief4));
+        assertTrue(expectedThief.equals(expectedThief5));
+        assertFalse(expectedThief.equals(expectedBlackMage));
     }
     @Test
     void equipWeaponTest() {
-        Thief thief= new Thief(turns,THIEF_NAME,10,15);
-        assertNull(thief.getEquippedWeapon());
-        thief.equip(testWeappon);
-        assertEquals(testWeappon,thief.getEquippedWeapon());
+        testThief= new Thief(turns, THIEF_NAME, 50, 5);
+        Engineer testEngineer = new Engineer(turns, "Engineer test", 50, 5);
+        Thief testThief2 = new Thief(turns, "Thief", 0, 5);
+        Bow testBow= new Bow("Bow", 10, 10);
+        Sword testSword= new Sword("Sword", 10, 10);
+        Staff testStaff= new Staff("Staff", 10, 10);
+
+        testThief.equip(testBow);
+        testThief.attack(testEngineer);
+        assertEquals(testEngineer.getPuntosDeVida(), 45);
+
+        testThief.equip(testSword);
+        testThief.attack(testEngineer);
+        assertEquals(testEngineer.getPuntosDeVida(), 40);
+
+        testThief.equip(testStaff);
+        testThief.attack(testEngineer);
+        assertEquals(testEngineer.getPuntosDeVida(), 35);
+
+        testThief2.attack(testEngineer);
+        assertEquals(testEngineer.getPuntosDeVida(), 35);
     }
 
 

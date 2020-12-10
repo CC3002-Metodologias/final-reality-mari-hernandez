@@ -54,6 +54,16 @@ public class Enemy extends AbstractCharacter {
     return damage;
   }
 
+  /**
+   * attacks other character
+   */
+  public void attack(ICharacter character) {
+    if (this.getPuntosDeVida() > 0) {
+      character.attackedBy(this.damage);
+    }
+  }
+
+
   @Override
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();

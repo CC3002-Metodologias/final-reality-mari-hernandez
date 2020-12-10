@@ -1,13 +1,13 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.ICharacter;
-import com.github.cc3002.finalreality.model.weapon.Weapon;
+import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class Engineer extends PlayerCharacter{
+public class Engineer extends AbstractPlayerCharacter {
     /**
      * Creates a new Engineer.
      *
@@ -23,6 +23,11 @@ public class Engineer extends PlayerCharacter{
     public Engineer(@NotNull BlockingQueue<ICharacter> turnsQueue,
                          @NotNull String name, int puntosDeVida, int defense) {
         super(turnsQueue, name, puntosDeVida, defense);
+    }
+
+    @Override
+    public void equip(IWeapon weapon){
+        weapon.equipByEngineer(this);
     }
 
 

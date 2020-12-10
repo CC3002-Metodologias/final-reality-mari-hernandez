@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.cc3002.finalreality.Controller.IDeadHandler;
+
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
@@ -30,7 +32,19 @@ public interface ICharacter {
    */
   int getDefense();
 
+  /**
+   * gets attacks by another character
+   */
+  void attackedBy(int damage);
 
+
+  /**
+   * attacks another character
+   */
+  void attack(ICharacter character);
+
+
+  void addListener(IDeadHandler handler);
 
 
 }
