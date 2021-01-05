@@ -66,6 +66,8 @@ public class BlackMageTest {
         assertFalse(expectedBlackMage.equals(expectedBlackMage3));
         assertFalse(expectedBlackMage.equals(expectedBlackMage4));
         assertFalse(expectedBlackMage.equals(expectedWhiteMage));
+
+        assertEquals(expectedWhiteMage.iAmA(), 1);
     }
 
     @Test

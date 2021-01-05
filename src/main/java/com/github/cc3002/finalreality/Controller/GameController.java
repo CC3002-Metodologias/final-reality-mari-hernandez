@@ -1,29 +1,33 @@
 package com.github.cc3002.finalreality.Controller;
 
+import com.github.cc3002.finalreality.Controller.States.ControllerState;
+import com.github.cc3002.finalreality.Controller.States.StartState;
 import com.github.cc3002.finalreality.model.character.Enemy;
 import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.IPlayerCharacter;
 import com.github.cc3002.finalreality.model.character.player.*;
 import com.github.cc3002.finalreality.model.weapon.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameController {
 
-    private BlockingQueue<ICharacter> turnsQueue;
+    private final BlockingQueue<ICharacter> turnsQueue;
     private int aliveEnemies = 0;
     private int alivePlayerCharacter = 0;
-    private int totalEnemies = 5;
-    private int totalPlayerCharacter = 3;
+    private final int totalPlayerCharacter = 3;
     private String winner;
-    private Inventory inventory;
-    private ArrayList<IPlayerCharacter> party;
-    private ArrayList<Enemy> partyEnemies;
+    private final ArrayList<IWeapon> inventory;
+    private final ArrayList<IPlayerCharacter> party;
+    private final ArrayList<Enemy> partyEnemies;
     private ICharacter playingCharacter;
     private final IDeadHandler enemyDeadHandler = new EnemyDeadHandler(this);
     private final IDeadHandler playerDeadHandler = new PlayerCharacterDeadHandler(this);
-
+    private final IDeadHandler characterQueueHandler = new EnterToQueueHandler(this);
+    private ControllerState state;
+    private final Random random;
 
     /**
      * Creates a new Game Controller
@@ -31,9 +35,48 @@ public class GameController {
     public GameController() {
 
         turnsQueue = new LinkedBlockingQueue<>();
-        inventory = new Inventory();
+        inventory = new ArrayList<>();
         party = new ArrayList<>();
         partyEnemies = new ArrayList<>();
+        setState(new StartState());
+        random= new Random();
+    }
+
+    /**
+     * Gets the i weapon on the inventory
+     */
+    public IWeapon lookForWeaponInInventory(int i){
+        IWeapon theWeapon = inventory.get(i);
+        return theWeapon;
+    }
+
+    /**
+     * Introduce a weapon on the inventory
+     */
+    public void getInInventory(IWeapon weapon){
+        inventory.add(weapon);
+    }
+
+    /**
+     * Remove a weapon from the inventory
+     */
+    public void getOutOfInventory(IWeapon weapon){
+        inventory.remove(weapon);
+    }
+
+
+    /**
+     * Looks for a weapon on the invetory by its name
+     */
+    public IWeapon lookForWeaponInInventoryByName(String name){
+        int i=0;
+        for (IWeapon weapon: inventory){
+            if( inventory.get(i).getName().equals(name)){
+                return inventory.get(i);
+            }
+            i++;
+        }
+        return null;
     }
 
     /**
@@ -43,6 +86,7 @@ public class GameController {
     public void playerLose(IPlayerCharacter player) {
         alivePlayerCharacter -= 1;
         if (alivePlayerCharacter == 0) {
+            state.enemiesWinState();
             winner = "Enemy";
         }
     }
@@ -54,6 +98,7 @@ public class GameController {
     public void enemyLose(Enemy enemy) {
         aliveEnemies -= 1;
         if (aliveEnemies == 0) {
+            state.playerWinState();
             winner = "Player";
         }
     }
@@ -62,19 +107,17 @@ public class GameController {
      * Equips a weapon from the inventory
      * to someone in the party
      */
-
-    public void equip(IPlayerCharacter player, String weapon) {
-        IWeapon newWeapon = inventory.lookForWeaponInInventory(weapon);
+    public void equip(IPlayerCharacter player, IWeapon weapon) {
         IWeapon actualWeapon = player.getEquippedWeapon();
-        player.equip(newWeapon);
+        player.equip(weapon);
         if (actualWeapon == null) {
             if (player.getEquippedWeapon() != null) {
-                inventory.getOutOfInventory(newWeapon);
+                getOutOfInventory(weapon);
             }
         } else {
             if (!actualWeapon.equals(player.getEquippedWeapon())) {
-                inventory.getOutOfInventory(newWeapon);
-                inventory.getInInventory(actualWeapon);
+                getOutOfInventory(weapon);
+                getInInventory(actualWeapon);
             }
         }
     }
@@ -84,6 +127,8 @@ public class GameController {
      */
     public void attack(ICharacter player1, ICharacter player2) {
         player1.attack(player2);
+        state.endTurnState();
+        turnEnds();
     }
 
     /**
@@ -94,7 +139,8 @@ public class GameController {
         if (party.size() < totalPlayerCharacter) {
             alivePlayerCharacter++;
             party.add(playerCharacter);
-            playerCharacter.addListener(playerDeadHandler);
+            playerCharacter.addListenerDead(playerDeadHandler);
+            playerCharacter.addListenerQueue(characterQueueHandler);
         }
     }
 
@@ -103,10 +149,12 @@ public class GameController {
      * there is maximum of 5 enemies in the Enemies party
      */
     public void insertPartyEnemies(Enemy enemy) {
+        int totalEnemies = 5;
         if (partyEnemies.size() < totalEnemies) {
             aliveEnemies++;
             partyEnemies.add(enemy);
-            enemy.addListener(enemyDeadHandler);
+            enemy.addListenerDead(enemyDeadHandler);
+            enemy.addListenerQueue(characterQueueHandler);
         }
     }
 
@@ -176,7 +224,7 @@ public class GameController {
      */
     public void createAxe(String name, int damage, int weight) {
         Axe axe = new Axe(name, damage, weight);
-        inventory.getInInventory(axe);
+        getInInventory(axe);
     }
 
     /**
@@ -185,7 +233,7 @@ public class GameController {
      */
     public void createBow(String name, int damage, int weight) {
         Bow bow = new Bow(name, damage, weight);
-        inventory.getInInventory(bow);
+        getInInventory(bow);
     }
 
     /**
@@ -194,7 +242,7 @@ public class GameController {
      */
     public void createKnife(String name, int damage, int weight) {
         Knife knife = new Knife(name, damage, weight);
-        inventory.getInInventory(knife);
+        getInInventory(knife);
     }
 
     /**
@@ -203,7 +251,7 @@ public class GameController {
      */
     public void createStaff(String name, int damage, int weight) {
         Staff staff = new Staff(name, damage, weight);
-        inventory.getInInventory(staff);
+        getInInventory(staff);
     }
 
     /**
@@ -212,7 +260,7 @@ public class GameController {
      */
     public void createSword(String name, int damage, int weight) {
         Sword sword = new Sword(name, damage, weight);
-        inventory.getInInventory(sword);
+        getInInventory(sword);
     }
 
     /**
@@ -222,6 +270,7 @@ public class GameController {
         IPlayerCharacter player = party.get(i);
         return player;
     }
+
 
     /**
      * Looks for the i enemy that got into the Enemies party
@@ -237,6 +286,12 @@ public class GameController {
     public String lookForCharacterName(int i) {
         IPlayerCharacter character = this.lookForPlayerCharacter(i);
         String name = character.getName();
+        return name;
+    }
+
+    public String lookForWeaponName(int i){
+        IWeapon weapon = this.lookForWeaponInInventory(i);
+        String name = weapon.getName();
         return name;
     }
 
@@ -276,6 +331,18 @@ public class GameController {
         return defense;
     }
 
+    public IPlayerCharacter lookForCharacterByName(String name){
+        int i=0;
+        for (IPlayerCharacter player: party){
+            if( party.get(i).getName().equals(name)){
+                return party.get(i);
+            }
+            i++;
+        }
+        return null;
+
+    }
+
     /**
      * Looks for the defense of the i enemy that got into the Enemies party
      */
@@ -290,8 +357,7 @@ public class GameController {
      */
     public IWeapon lookForPlayerCharacterWeapon(int i) {
         IPlayerCharacter character = this.lookForPlayerCharacter(i);
-        IWeapon weapon = character.getEquippedWeapon();
-        return weapon;
+        return character.getEquippedWeapon();
     }
 
     /**
@@ -299,8 +365,15 @@ public class GameController {
      */
     public int lookForEnemyWeight(int i) {
         Enemy enemy = this.lookForEnemy(i);
-        int weight = enemy.getWeight();
-        return weight;
+        return enemy.getWeight();
+    }
+
+    /**
+     * Gets the Weight of the weapon i on the inventory
+     */
+    public int lookForWeaponWeight(int i){
+        IWeapon weapon= this.lookForWeaponInInventory(i);
+        return weapon.getWeight();
     }
 
     /**
@@ -313,6 +386,14 @@ public class GameController {
     }
 
     /**
+     * Gets the Damage of the weapon i on the inventory
+     */
+    public int lookForWeaponDamage(int i){
+        IWeapon weapon = this.lookForWeaponInInventory(i);
+        return weapon.getDamage();
+
+    }
+    /**
      * Get the party
      */
     public ArrayList<IPlayerCharacter> getParty() {
@@ -322,7 +403,7 @@ public class GameController {
     /**
      * Get the inventory
      */
-    public Inventory getInventory() {
+    public ArrayList<IWeapon> getInventory() {
         return inventory;
     }
 
@@ -340,20 +421,15 @@ public class GameController {
         return winner;
     }
 
-    /**
-     * Starts a turn
-     */
-    public ICharacter turnsBegin() {
-        ICharacter playing = turnsQueue.poll();
-        return playing;
-    }
 
     /**
-     * Ends a turn
+     * State pattern
      */
-    public void turnEnds(ICharacter character) {
-        character.waitTurn();
+    public void setState(ControllerState state){
+        this.state = state;
+        state.setController(this);
     }
+
 
     /**
      * Enters all the players to the queue
@@ -365,7 +441,91 @@ public class GameController {
             }
             for (var enemy : partyEnemies) {
                 enemy.waitTurn();
-            }
+            }state.beginTurnState();
         }
     }
+
+    /**
+     * If the state its the correct one, starts the game
+     */
+    public void tryToGameStarter(){
+        state.tryToGameStarter();
+    }
+
+    /**
+     * Starts a turn
+     */
+    public void beginTurn(){
+        playingCharacter = turnsQueue.poll();
+        state.selectingState();
+        if (playingCharacter.iAmA()==0){
+            ICharacter player = chooseRandomPlayer();
+            state.attackingState();
+            tryToAttack(playingCharacter, player);
+        }else if (playingCharacter.iAmA()==1){
+            state.attackingState();
+        }
+    }
+
+    /**
+     * If the state its the correct one, attack
+     */
+    public void tryToAttack(ICharacter player, ICharacter player2){
+        state.tryToAttack(player, player2);
+    }
+
+
+    /**
+     * Chooses random player to attack
+     */
+    public ICharacter chooseRandomPlayer(){
+        int partySize = getParty().size();
+        int num = random.nextInt(partySize);
+        ICharacter player = lookForPlayerCharacter(num);
+        if(player.getPuntosDeVida()>0){
+            return player;
+        }else{
+            chooseRandomPlayer();
+        }
+        return player;
+    }
+
+    /**
+     *If the state its the correct one, begin turn
+     */
+    public void tryToBeginTurn(){
+        state.tryToBeginTurn(); }
+
+    /**
+     * Ends a turn
+     */
+    public void turnEnds() {
+        playingCharacter.waitTurn();
+        state.beginTurnState();
+        if(!turnsQueue.isEmpty()){
+            tryToBeginTurn();
+        }
+    }
+
+    /**
+     * gets the number of player characters
+     */
+    public int getTotalPlayerCharacter(){
+        return totalPlayerCharacter;
+    }
+
+    /**
+     * gets the number of alive player characters
+     */
+    public  int getAlivePlayerCharacter(){
+        return alivePlayerCharacter;
+    }
+
+    /**
+     * gets the playing character
+     */
+    public ICharacter getPlayingCharacter(){
+        return playingCharacter;
+    }
+
 }
