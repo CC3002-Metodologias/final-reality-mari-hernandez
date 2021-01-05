@@ -92,4 +92,11 @@ public class Enemy extends AbstractCharacter {
   public int hashCode() {
     return Objects.hash(getName());
   }
+
+  /**
+   * Identifies the Enemy
+   */
+  public int iAmA(){
+    return 0;
+  }
 }

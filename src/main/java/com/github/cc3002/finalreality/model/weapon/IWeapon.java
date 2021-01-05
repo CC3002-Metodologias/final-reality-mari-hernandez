@@ -26,9 +26,13 @@ public interface IWeapon {
      */
     int getWeight();
 
-    public void equipByThief(Thief thief);
-    public void equipByBlackMage(BlackMage blackMage);
-    public void equipByEngineer(Engineer engineer);
-    public void equipByKnight(Knight knight);
-    public void equipByWhiteMage(WhiteMage whiteMage);
+    void equipByThief(Thief thief);
+
+    void equipByEngineer(Engineer engineer);
+
+    void equipByKnight(Knight knight);
+
+    void equipByWhiteMage(WhiteMage whiteMage);
+
+    void equipByBlackMage(BlackMage blackMage);
 }

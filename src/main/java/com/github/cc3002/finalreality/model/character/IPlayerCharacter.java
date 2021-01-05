@@ -14,9 +14,14 @@ public interface IPlayerCharacter extends ICharacter{
      */
     void equip(IWeapon weapon);
 
+    /**
+     * gets the weapon equipped by the player
+     */
     IWeapon getEquippedWeapon();
 
-
+    /**
+     * equip the weapon for a player
+     */
     void setEquippedWeapon(IWeapon weapon);
 
 }

@@ -9,9 +9,6 @@ import java.util.concurrent.BlockingQueue;
 
 public class BlackMage extends AbstractPlayerCharacter {
 
-
-    private int mana;
-
     /**
      * Creates a new BlackMage.
      *
@@ -48,8 +45,6 @@ public class BlackMage extends AbstractPlayerCharacter {
         return getName().equals( that.getName())
                 && getPuntosDeVida() == that.getPuntosDeVida()
                 && getDefense() == that.getDefense();
-
-
     }
 
     @Override

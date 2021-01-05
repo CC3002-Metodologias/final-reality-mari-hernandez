@@ -37,14 +37,23 @@ public interface ICharacter {
    */
   void attackedBy(int damage);
 
-
   /**
    * attacks another character
    */
   void attack(ICharacter character);
 
+  /**
+   * Observer Pattern
+   */
+  void addListenerDead(IDeadHandler handler);
 
-  void addListener(IDeadHandler handler);
+  /**
+   * Observer Pattern
+   */
+  void addListenerQueue(IDeadHandler handler);
 
-
+  /**
+   * Identifies an ICharacter
+   */
+  int iAmA();
 }

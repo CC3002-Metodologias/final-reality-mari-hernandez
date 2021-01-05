@@ -65,6 +65,8 @@ class EnemyTest {
     assertFalse(expectedEnemy.equals(expectedEnemy6));
     assertFalse(expectedEnemy.equals(expectedBlackMage));
     assertTrue(expectedEnemy.equals(expectedEnemy7));
+
+    assertEquals(expectedEnemy.iAmA(),0 );
   }
   @Test
   void attackTest() {

@@ -2,10 +2,9 @@ package com.github.cc3002.finalreality.model.character;
 
 import com.github.cc3002.finalreality.Controller.IDeadHandler;
 import org.jetbrains.annotations.NotNull;
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
-import java.beans.PropertyChangeSupport;
-import java.util.*;
 
 /**
  * An abstract class that holds the common behaviour of all the characters in the game.
@@ -21,6 +20,7 @@ public abstract class AbstractCharacter implements ICharacter {
   protected int puntosDeVida;
   protected int defense;
   private final PropertyChangeSupport deadPlayerEvent = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport enterToQueueEvent = new PropertyChangeSupport(this);
 
   /**
    * Creates a Character with a turn, name, HP and defense points
@@ -47,8 +47,11 @@ public abstract class AbstractCharacter implements ICharacter {
    * Adds this character to the turns queue.
    */
   protected void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
+      if(getPuntosDeVida()>0){
+      turnsQueue.add(this);
+      scheduledExecutor.shutdown();
+      enterToQueueEvent.firePropertyChange( name + "enter to queue " , null, this);
+    }
   }
 
   /**
@@ -65,7 +68,6 @@ public abstract class AbstractCharacter implements ICharacter {
     return puntosDeVida;
   }
 
-
   /**
    * modify the character´s HP
    */
@@ -80,7 +82,6 @@ public abstract class AbstractCharacter implements ICharacter {
     return defense;
   }
 
-
   /**
    * gets attacks by another character
    */
@@ -90,11 +91,22 @@ public abstract class AbstractCharacter implements ICharacter {
       if(this.getPuntosDeVida()<0){
         this.setPuntosDeVida(0);
         deadPlayerEvent.firePropertyChange( name + "Died " , null, this);
+      }
     }
-  }}
+  }
 
-  public void addListener(IDeadHandler handler) {
+  /**
+   * Observer Pattern
+   */
+  public void addListenerDead(IDeadHandler handler) {
     deadPlayerEvent.addPropertyChangeListener(handler);
+  }
+
+  /**
+   * Observer Pattern
+   */
+  public void addListenerQueue(IDeadHandler handler) {
+    enterToQueueEvent.addPropertyChangeListener(handler);
   }
 
 }

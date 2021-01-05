@@ -9,11 +9,8 @@ import java.util.concurrent.BlockingQueue;
 
 public class WhiteMage extends AbstractPlayerCharacter {
 
-    private int mana;
-
     /**
      * Creates a new WhiteMage.
-     *
      * @param name
      *     the White Mage´s name
      * @param turnsQueue
@@ -22,7 +19,6 @@ public class WhiteMage extends AbstractPlayerCharacter {
      *     White Mage´s health points
      * @param defense
      *     White Mage´s defense points
-
      */
 
     public WhiteMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
@@ -34,8 +30,6 @@ public class WhiteMage extends AbstractPlayerCharacter {
     public void equip(IWeapon weapon){
         weapon.equipByWhiteMage(this);
     }
-
-
 
     @Override
     public boolean equals(final Object o) {

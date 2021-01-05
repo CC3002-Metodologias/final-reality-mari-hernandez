@@ -5,8 +5,6 @@ import com.github.cc3002.finalreality.model.character.ICharacter;
 import com.github.cc3002.finalreality.model.character.IPlayerCharacter;
 import com.github.cc3002.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
-import java.beans.PropertyChangeSupport;
-import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +68,13 @@ public abstract  class AbstractPlayerCharacter extends AbstractCharacter impleme
     if(this.getPuntosDeVida()>0 && equippedWeapon!=null){
       character.attackedBy(equippedWeapon.getDamage());
       }
+  }
+
+  /**
+   * Identifies the player
+   */
+  public int iAmA(){
+    return 1;
   }
 
 }
